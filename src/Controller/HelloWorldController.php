@@ -14,12 +14,14 @@ class HelloWorldController extends AbstractController
     public function index(): Response
     {
         $vars = ["uno", "due","tree"];
+        $list = ["1", "2","3"];
         $texte = "un texte";
         // return new Response('Hello world');
         return $this->render('hello_world/index.html.twig', [
             'titre' => 'HelloWorldTitle',
             'vars'=> $vars,
             'text'=>$texte,
+            'lst'=>$list
         ]);
     }
 
