@@ -83,8 +83,20 @@ class HelloWorldController extends AbstractController
      */
     public function contacts(EntityManagerInterface $em): Response
     {
+        // select all from contact
         $contacts = $em->getRepository(Contact::class)->findAll();
+        dump($contacts);
         
+        $contacts = $em->getRepository(Contact::class)->findBy([
+            'name'=>'Johnny',
+            'id'=> 4,]
+        );
+        dump($contacts);
+        
+        $contacts = $em->getRepository(Contact::class)->findOneBy([
+        'id'=>3,
+        ]);
+
         dd($contacts);
     }
 }
