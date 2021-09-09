@@ -31,13 +31,19 @@
             </div>          
         </div>
         <div class="col-6">
-            {{form_row(form.firstname)}}
+            {# on peut préciser le label, les attribut (data-nb:, class:, ) ... #}
+            {{form_row(form.firstname, {label: "Prénom",id:"idPrenom", attr: {class: 'classPrenom'} } ) }}
         </div>
-        <div class="col-6">
-            {{form_row(form.password)}}
-        </div>
-        <div class="col-6">
-            {{form_row(form.sanitaryPass)}}
+        <div class="row">
+            <div class="col-6">
+                {{form_row(form.password)}}
+            </div>
+            <div class="col-6">
+                {{form_row(form.sanitaryPass)}}
+            </div>
+            <div class="col-6">
+                {{form_row(form.mobile)}}
+            </div>
         </div>
     </div>
     

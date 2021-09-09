@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ContactRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=ContactRepository::class)
@@ -19,6 +20,7 @@ class Contact
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank         /* validation gérer coté back et non sur l'HTML, ne pas oublier le use 
      */
     private $name;
     /**
@@ -36,7 +38,7 @@ class Contact
      */
     private $sanitaryPass;
 
-    public function getId(): ?int
+    public function getId(): ?int  /* retourne nul ou int */
     {
         return $this->id;
     }
@@ -50,6 +52,8 @@ class Contact
         return $this->password;
     }
 
+    /* public function setName(?string $name): self  si on veut dire $name is null or string
+                                                quand on a nullable=true*/
     public function setName(string $name): self
     {
         $this->name = $name;
