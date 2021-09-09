@@ -8,9 +8,11 @@ use App\Entity\Film;
 use App\Form\ActeurType;
 use App\Form\FilmType;
 use App\Form\RealisateurType;
+use App\Kernel;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -74,19 +76,34 @@ class FilmController extends AbstractController
 
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
+
+            /* getData retourne l'entité film */
+            $film = $form->getData();
+
+            /** @var UploadedFile $file */
+            $file = $form->GET('file')->getData();
+            
+            $publicDir = $this->getParameter('kernel.project_dir').'/public';
+            $fileDir = '/upload/film';
+            $filename = $file->getClientOriginalName();
+
+            $file->move($publicDir.$fileDir, $filename);
+            $film->setImage($fileDir.'/'.$filename); // on veut /upload/film/image.jpg
+            
             $em->persist($film);
             $em->flush();
+            
             return $this->redirectToRoute('film_film');
         }
-
-        $entities = $em->getRepository(Film::class)->findAll();
         
-        dump($entities);
+        $films = $em->getRepository(Film::class)->findAll();
+
+        dump($films);
 
 
         return $this->render('film/index.html.twig', [
             'form' => $form->createView(),
-            'entities'=> $entities,
+            'films'=> $films,
         ]);
     }
 }

@@ -7,6 +7,26 @@
 
 {{form(form)}}
 
+<table class="table">
+    {% for film in films %}
+        <tr>
+            <td>
+                <img src="{{ film.image }}" class="img-fluid" alt='{{ film.titre }}' style="height: 50px">
+            </td>
+            <td># {{ loop.index }}</td>
+            <td>{{ film.titre }}</td>
+            <td>{{ film.year|date('Y') }}</td>
+            <td>{{ film.duree }}</td>
+            <td>{{ film.realisateur ? film.realisateur.nom : "" }}</td>
+            <td>
+                {% for acteur in film.acteurs %}
+                    {{ acteur.nom }}
+                    {{ not loop.last ? ' / ' }} {# on sépare par un / sauf si on est a la fin #}
+                {% endfor %}
+            </td>
+        </tr>
+    {% endfor %}
+</table>
 
 {% endblock %}
 
