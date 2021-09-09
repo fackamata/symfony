@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello FilmController!{% endblock %}
+
+{% block content %}
+
+<h1>Création {{ entity_type }}</h1>
+
+    {{ form(form) }}
+
+    <table class="table">
+        {% for entity in entities %}
+        <tr>
+            <td># {{loop.index}}</td>
+            <td>{{entity.nom}}</td>
+            <td>{{entity.prenom}}</td>
+            <td>{{entity.birthDate|date('d-m-Y')}}</td>
+        </tr>
+            
+        {% endfor %}
+    </table>
+
+{% endblock %}
