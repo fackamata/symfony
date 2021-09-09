@@ -81,7 +81,7 @@ class FilmController extends AbstractController
             $film = $form->getData();
 
             /** @var UploadedFile $file */
-            $file = $form->GET('file')->getData();
+            $file = $form->get('file')->getData();
             
             $publicDir = $this->getParameter('kernel.project_dir').'/public';
             $fileDir = '/upload/film';
