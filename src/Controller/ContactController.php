@@ -4,6 +4,7 @@ namespace App\Controller;
 
 
 use App\Entity\Contact;
+use App\Form\ContactType;
 use App\Repository\ContactRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -81,7 +82,7 @@ class ContactController extends AbstractController
     }
 
     /**
-//      * @Route("/contact/delete/{id}", name="contact_delete")
+    * @Route("/contact/delete/{id}", name="contact_delete")
      */
     public function delete(Contact $contact, EntityManagerInterface $em): Response
     
@@ -89,6 +90,28 @@ class ContactController extends AbstractController
         $em->remove($contact);
         $em->flush();
         return $this->redirectToRoute('contact_list'); // pour rediriger sur un page donné
+
+    }
+
+    /**
+     * @Route("/contact/update/{id}", name="contact_update")
+     */
+    public function update(Contact $contact, EntityManagerInterface $em, Request $request): Response
+    
+    { 
+        $form = $this->createForm(ContactType::class, $contact);
+        // regarde si le form envoie des données et s'il elle lui sont destiné
+        $form->handleRequest($request); // a ne pas oublier sinon on ne passe pas par le if
+        if($form->isSubmitted() && $form->isValid()){
+            $em->flush();
+
+            return $this->redirectToRoute('contact_list');
+        }
+    
+        return $this->render('contact/update.html.twig', [
+            'contact'=>$contact, 
+            'form'=>$form->createView(),
+        ]); // pour rediriger sur un page donné
 
     }
     

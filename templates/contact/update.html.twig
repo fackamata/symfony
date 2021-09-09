@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{# 
+    on défini une variable contactName réutilisable dans la vue
+    #}
+
+{% set contactName = contact.firstname ~ ' ' ~ contact.name  %}
+
+{% block title %}Update de {{ contactName }}!{% endblock %}
+
+{% block content %}
+
+<h1>Contact {{ contactName }}</h1>
+
+{# version courte #}
+{# {{ form(form)}}  #}
+
+
+{{ form_start(form)}} {# <form action="" method"> #}
+    <div class="row">
+        <div class="col-6">
+            <div class="row">
+                <div class="col-4">
+                    {# la version déplier au max #}
+                    {{form_label(form.name)}} {# le nom du champs #}            
+                </div>
+                <div class="col-8">
+                    {{form_widget(form.name)}} {# le champs <input/> #}
+                    {{form_errors(form.name)}} {# pour afficher les éventuelles erreurs #}
+                </div>
+            </div>          
+        </div>
+        <div class="col-6">
+            {{form_row(form.firstname)}}
+        </div>
+        <div class="col-6">
+            {{form_row(form.password)}}
+        </div>
+        <div class="col-6">
+            {{form_row(form.sanitaryPass)}}
+        </div>
+    </div>
+    
+  {{ form_end(form)}} 
+
+
+
+{% endblock %}
