@@ -8,7 +8,7 @@ use App\Entity\Film;
 use App\Form\ActeurType;
 use App\Form\FilmType;
 use App\Form\RealisateurType;
-use App\Kernel;
+use App\Service\FileService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -69,30 +69,26 @@ class FilmController extends AbstractController
     /**
      * @Route("/film", name="film_film")
      */
-    public function film(Request $request, EntityManagerInterface $em): Response
+    public function film(Request $request, EntityManagerInterface $em, FileService $fileService): Response
     {
-        $film = new Film(); /* on le créer $film puis on le passe ds la fct createForm sinon ça le flush*/
+        $film = new Film();
         $form = $this->createForm(FilmType::class, $film);
 
         $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
 
-            /* getData retourne l'entité film */
+            //getData retourne l'entitée Film
             $film = $form->getData();
 
             /** @var UploadedFile $file */
             $file = $form->get('file')->getData();
-            
-            $publicDir = $this->getParameter('kernel.project_dir').'/public';
-            $fileDir = '/upload/film';
-            $filename = $file->getClientOriginalName();
 
-            $file->move($publicDir.$fileDir, $filename);
-            $film->setImage($fileDir.'/'.$filename); // on veut /upload/film/image.jpg
-            
+            $filename = $fileService->upload($file, $film); // param de upload, n'inporte quel entité
+            $film->setImage($filename); //  /upload/film/image.jpg
+
             $em->persist($film);
             $em->flush();
-            
+
             return $this->redirectToRoute('film_film');
         }
         
