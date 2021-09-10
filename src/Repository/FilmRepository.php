@@ -19,6 +19,41 @@ class FilmRepository extends ServiceEntityRepository
         parent::__construct($registry, Film::class);
     }
 
+    public function search(array $params)
+    {
+        $qB = $this->createQueryBuilder('f'); /* correspond a select * from film par defaut sinon ->select */
+
+        if (!empty($params['strSearch'])){
+            $qB->andwhere('f.titre LIKE :strSearch OR  f.synopsis LIKE :strSearch') /* :strSearch = stringEscape pour éviter les injections sql au lieu de %search% */
+                ->setParameter('strSearch', '%'.$params['strSearch'].'%');
+        }
+
+        if (!empty($params['acteur'])){
+            $qB->join('f.acteurs', 'a') //'f.acteur', alias: 'a'
+                ->andwhere('a.id = :acteurId') // acteurId = c'est nous qui le nommons
+                ->setParameter('acteurId', $params['acteur']);
+        }
+        if (!empty($params['dateDebut'])){
+            $qB->andwhere('f.year >= :dateDebut') 
+                ->setParameter('dateDebut', $params['dateDebut']);
+        }
+        if (!empty($params['dateFin'])){
+            $qB->andwhere('f.year <= :dateFin') 
+                ->setParameter('dateFin', $params['dateFin']);
+        }
+
+        // dd($qB->getQuery()->getResult());
+        return $qB->getQuery()->getResult();
+        /* pour créer ses propre requete, un constructeur de requete*/
+        // return $this->createQueryBuilder('f') /* correspond a select * from film par defaut sinon ->select */
+        //     ->where('f.titre LIKE :strSearch OR  f.synopsis LIKE :strSearch') /* :strSearch = stringEscape pour éviter les injections sql au lieu de %search% */
+        //     ->setParameters([
+        //             'strSearch' => '%'.$params['strSearch'].'%',
+        //     ])
+        //     ->getQuery() /* génères la requete sql */
+        //     ->getResult() ; /* renvoie le résultat */
+    }
+
     // /**
     //  * @return Film[] Returns an array of Film objects
     //  */

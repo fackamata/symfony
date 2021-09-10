@@ -15,6 +15,11 @@ class FileService
         $this->projectDir = $parameterBag->get('kernel.project_dir');
     }
 
+
+    /* & devant un string envoie l'adresse mémoire
+        car un string est envoyer directement en parametre
+        mais un objet ou un array n'envoie que l'adresse mémoire
+    */
     public function upload(UploadedFile $file, FilableInterface $entity): string
     {
         $publicDir = $this->projectDir . '/public';

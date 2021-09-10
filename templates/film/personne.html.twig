@@ -11,6 +11,9 @@
     <table class="table">
         {% for entity in entities %}
         <tr>
+            <td>
+                 <img src="{{ entity.image }}" class="img-fluid" alt='{{ entity.nom }}' style="height: 50px"> 
+            </td>
             <td># {{loop.index}}</td>
             <td>{{entity.nom}}</td>
             <td>{{entity.prenom}}</td>

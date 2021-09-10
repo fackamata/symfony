@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Film implements FilableInterface
 {
-    public const FILE_DIR = '/upload/film'; 
+    public const FILE_DIR = '/upload/film'; // pour ensuite créer un dossier pour les uploads
 
     /** 
      * @ORM\Id

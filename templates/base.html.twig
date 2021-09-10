@@ -33,6 +33,11 @@
                                 Films
                             </a>
                         </li>
+                        <li class="list-group-item">
+                            <a href="{{path('film_search')}}">
+                                Rechercher
+                            </a>
+                        </li>
                     </ul>
              </div>
         </header>
@@ -56,6 +61,7 @@
                 
             });
         </script>
+        {% block js %}{% endblock %}
 
     </body>
 </html>
