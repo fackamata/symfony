@@ -168,9 +168,17 @@ class FilmController extends AbstractController
     {
         $form = $request->request->all();
 
-        $results = $filmRepository->search($form['form']);
+        $films = $filmRepository->search($form['form']);
 
-        dd($results);
+        /* retourne le code html de la vue */
+        $view = $this->renderView('film/_search.html.twig', [
+            'films' => $films,
+        ]);
+
+        /* retourne une JsonResponse */
+        return $this->json([
+            'view' => $view,
+        ]);
     }
 
 }

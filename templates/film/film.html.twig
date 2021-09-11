@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello FilmController!{% endblock %}
+{% block title %}Recherche de film{% endblock %}
 
 {% block content %}
 <h1>Recherche film</h1>
@@ -8,6 +8,8 @@
 {{form(form, {attr: {id: "searchForm"}})}}
 
 
+<div id="messageBox"></div>
+<div id="resultWrapper"></div>
 
 {% endblock %}
 
@@ -21,7 +23,7 @@
 
                 let data = $('#searchForm').serialize(); // serialize : mettre en chaine de charactères
                 // let data = new FormData(form.serialize());
-                console.log(data);
+                // console.log(data);
 
                 $.ajax({
                     url: '/film/search/response',
@@ -29,10 +31,12 @@
                     type: 'post',
                     dataType: 'json',
                     beforeSend: function(){
-
+                        $('#messageBox').html('<b>... chargement ...</b>');
                     },
                     success: function(json){ // si code html 200
-                        console.log(json); 
+                        let html = json.view;
+                        $('#resultWrapper').html(html);
+                        $('#messageBox').html('');
                     },
                     error: function(a,z,e){ // si code html 404, 401, ...
            

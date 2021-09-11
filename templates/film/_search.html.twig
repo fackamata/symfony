@@ -1,0 +1,36 @@
+{# 
+
+    requirements
+    @var films required
+    
+#}
+
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>titre</th>
+            <th>année</th>
+            <th>acteur</th>
+            <th>affiche</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for film in films %}
+            <tr>
+                <td>{{film.titre}}</td>
+                <td>{{film.year}}</td>
+                <td>
+                    {% for acteur in film.acteurs %}
+                        {{acteur.fullName}}
+                        {{not loop.last ? ' - '}}
+                    {% endfor %}
+                </td>
+                <td>
+                    {% if film.image %}
+                        <img src="{{film.image}}" class="img-fluid w-25" alt="{{film.titre}}  style="height: 50px">
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

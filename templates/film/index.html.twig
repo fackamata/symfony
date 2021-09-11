@@ -15,7 +15,8 @@
             </td>
             <td># {{ loop.index }}</td>
             <td>{{ film.titre }}</td>
-            <td>{{ film.year|date('Y') }}</td>
+            <!-- <td>{{ film.year|date('Y') }}</td>  pour avoir seulement l'année si en datetime-->
+            <td>{{ film.year}}</td>
             <td>{{ film.duree }}</td>
             <td>{{ film.realisateur ? film.realisateur.nom : "" }}</td>
             <td>
