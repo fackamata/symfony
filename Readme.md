@@ -6,7 +6,7 @@ test du readme
 ```
 symfony console symfony console doctrine:migrations:dump-schema :
 ```
-        pour créer la première version de notre bdd dans un fichier php
+pour créer la première version de notre bdd dans un fichier php
 
  ```       
 symfony console doctrine:migrations:diff :
@@ -28,8 +28,11 @@ symfony console doctrine:migrations:execute  :
 
 Liste des commande de l'authentication :
 
+``` symfony
+symfony console make:user
 ```
-symfony console make:user   : pour créer un user tout bien avec symfony, il crée tout ce qu'il faut
+
+pour créer un user tout bien avec symfony, il crée tout ce qu'il faut
                         et implémente l'user interface
 
 symfony console make:auth   : pour faire de l'authentification
