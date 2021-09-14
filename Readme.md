@@ -31,12 +31,14 @@ Liste des commande de l'authentication :
 ``` symfony
 symfony console make:user
 ```
+pour créer un user tout bien avec symfony, il crée tout ce qu'il faut et implémente l'user interface
 
-pour créer un user tout bien avec symfony, il crée tout ce qu'il faut
-                        et implémente l'user interface
-
-symfony console make:auth   : pour faire de l'authentification
-
-symfony console make:registration-form  : pour créer un formulaire d'authentification
-
+``` symfony
+symfony console make:auth
 ```
+pour faire de l'authentification
+
+``` symfony
+symfony console make:registration-form
+```
+pour créer un formulaire d'authentification
