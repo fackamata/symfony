@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Page index{% endblock %}
+
+{% block content %}
+    <h1>Page index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>TitreOnglet</th>
+                <th>TitrePage</th>
+                <th>Image</th>
+                <th>Texte</th>
+                <th>Date</th>
+                <th>Actif</th>
+                <th>Ordre</th>
+                <th>Slug</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for page in pages %}
+            <tr>
+                <td>{{ page.id }}</td>
+                <td>{{ page.titreOnglet }}</td>
+                <td>{{ page.titrePage }}</td>
+                <td>{{ page.image }}</td>
+                <td>{{ page.texte }}</td>
+                <td>{{ page.date ? page.date|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ page.actif ? 'Yes' : 'No' }}</td>
+                <td>{{ page.ordre }}</td>
+                <td>{{ page.slug }}</td>
+                <td>
+                    <a href="{{ path('page_show', {'id': page.id}) }}">show</a>
+                    <a href="{{ path('page_edit', {'id': page.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="10">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('page_new') }}">Create new</a>
+{% endblock %}

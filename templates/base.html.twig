@@ -16,8 +16,14 @@
     </head>
     <body>
         <header>
+
              <div class="container-fluid">
                     <ul class="list-group list-group-horizontal">
+                        <li class="list-group-item">
+                            <a href="{{path('home')}}">
+                                Accueil
+                            </a>
+                        </li>
                         <li class="list-group-item">
                             <a href="{{path('film_acteur')}}">
                                 Acteurs
@@ -38,9 +44,31 @@
                                 Rechercher
                             </a>
                         </li>
+                        <li class="list-group-item">
+                            {% if app.user%}
+                                <a href="{{path('app_logout')}}"> logout</a>
+                                {% else %}
+                                <a href="{{path('app_login')}}"> login</a>
+                                    
+                            {% endif %}
+
+                        </li>
+                        {% if app.user %}
+                            <li class="list-group-item">
+                                Salut {{app.user.username|capitalize}}
+                            </li>
+                        {% endif %}
                     </ul>
              </div>
         </header>
+
+        {% for message in app.flashes('notice') %}
+            <div class="alert alert-success">{{message}}</div>
+        {% endfor %}
+
+        {% for message in app.flashes('error') %}
+            <div class="alert alert-danger">{{message}}</div>
+        {% endfor %}
 
         <div class="container-fluid">
         {% block content %}{% endblock %}
