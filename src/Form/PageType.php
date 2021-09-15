@@ -20,13 +20,12 @@ class PageType extends AbstractType
             ->add('file', FileType::class,[ 
                 'mapped' => false,
                 'label' => 'Affiche',
+                'required'=> false,
             ])
             ->add('texte')
-            ->add('date', DateType::class, [ 'widget'=> 'single_text'])
             ->add('actif')
             ->add('ordre')
-            ->add('slug')
-            ->add('submit', SubmitType::class, ['label'=> 'Enregistrer'])
+            // ->add('submit', SubmitType::class, ['label'=> 'Enregistrer'])
         ;
     }
 

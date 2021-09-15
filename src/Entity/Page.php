@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=PageRepository::class)
+ * @ORM\HasLifecycleCallbacks()
  */
 class Page implements FilableInterface
 {
@@ -31,7 +32,7 @@ class Page implements FilableInterface
     private $titrePage;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $image;
 
@@ -59,6 +60,11 @@ class Page implements FilableInterface
      * @ORM\Column(type="string", length=255)
      */
     private $slug;
+
+    public function __construct()
+    {
+        $this->date = new \DateTime();
+    }
 
     public function getId(): ?int
     {
@@ -164,5 +170,24 @@ class Page implements FilableInterface
     public function getFileDirectory(): string
     {
         return self::FILE_DIR;
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function prePersist(){
+        $this->slugalize();
+    }
+    /**
+     * @ORM\PreUpdate
+     */
+    public function preUpadte(){
+        $this->slugalize();
+    }
+
+    private function slugalize(): void{
+        $slug = strtolower($this->getTitrePage());
+        $slug = preg_replace('/[^0-9a-z]+/', '-', $slug);
+        $this->setSlug($slug.'-'.uniqid());
     }
 }

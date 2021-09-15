@@ -6,8 +6,10 @@ use App\Entity\Page;
 use App\Form\PageType;
 use App\Service\FileService;
 use App\Repository\PageRepository;
+use Doctrine\ORM\Mapping\OrderBy;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -23,7 +25,7 @@ class PageController extends AbstractController
     public function index(PageRepository $pageRepository): Response
     {
         return $this->render('page/index.html.twig', [
-            'pages' => $pageRepository->findAll(),
+            'pages' => $pageRepository->findBy([], ['ordre'=>'asc']),
         ]);
     }
 
@@ -40,15 +42,16 @@ class PageController extends AbstractController
 
             $entityManager = $this->getDoctrine()->getManager();
 
-            //getData retourne l'entitée Acteur
+            //getData retourne l'entitée Page
             $page = $form->getData();
 
             /** @var UploadedFile $file */
             $file = $form->get('file')->getData();
+            if($file){
 
-            $filename = $fileService->upload($file, $page); // param de upload, n'inporte quel entité
-            $page->setImage($filename); //  /upload/page/image.jpg
-
+                $filename = $fileService->upload($file, $page); // param de upload, n'inporte quel entité
+                $page->setImage($filename); //  /upload/page/image.jpg
+            }
 
             $entityManager->persist($page);
             $entityManager->flush();
@@ -75,13 +78,32 @@ class PageController extends AbstractController
     /**
      * @Route("/{id}/edit", name="page_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Page $page): Response
+    public function edit(Request $request, Page $page, FileService $fileService , ParameterBagInterface $parameterBag): Response
     {
         $form = $this->createForm(PageType::class, $page);
+        $previousImage = $page->getImage();
         $form->handleRequest($request);
-
+        
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+
+            //getData retourne l'entitée Acteur
+            $page = $form->getData();
+            /** @var UploadedFile $file */
+            $file = $form->get('file')->getData();
+            // dd($file);
+            if($file != null){
+                $filename = $fileService->upload($file, $page); // param de upload, n'inporte quel entité
+                $page->setImage($filename); //  /upload/page/image.jpg
+            }
+             $this->getDoctrine()->getManager()->flush();
+                $newImage = $page->getImage();
+
+                if($previousImage != $newImage){
+                    $root = $parameterBag->get('kernel.project_dir');
+                    $racine = $root  . '/public';
+                    $completePath = $racine . $previousImage;
+                    unlink($completePath);
+                }
 
             return $this->redirectToRoute('page_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -95,12 +117,24 @@ class PageController extends AbstractController
     /**
      * @Route("/{id}", name="page_delete", methods={"POST"})
      */
-    public function delete(Request $request, Page $page): Response
+    public function delete(Request $request, Page $page, ParameterBagInterface $parameterBag): Response
     {
         if ($this->isCsrfTokenValid('delete'.$page->getId(), $request->request->get('_token'))) {
+
+            $root = $parameterBag->get('kernel.project_dir');
+            $racine = $root  . '/public';
+            $completePath = $racine . $page->getImage();
+
+            if(is_file($completePath)){
+
+                unlink($completePath);
+            }
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($page);
             $entityManager->flush();
+
+            /*  remove image in file */
+            
         }
 
         return $this->redirectToRoute('page_index', [], Response::HTTP_SEE_OTHER);

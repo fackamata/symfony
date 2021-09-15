@@ -7,6 +7,9 @@ test du readme
 **$ composer install ** 
 pour installer toutes les dépendances 
 
+**$ bin/console doctrine:schema:update --force **
+pour créer la base de donnée par rapport aux entités
+
 ## Command Utilisé 
 
 ```
@@ -64,3 +67,7 @@ pour créer toute les pages pour une entité
 symfony console make:registration-form
 ```
 pour créer un formulaire d'authentification
+
+
+
+aller voir dans src Twig pour le filtre
