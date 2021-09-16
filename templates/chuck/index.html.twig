@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ChuckController!{% endblock %}
+
+{% block content %}
+
+    <h1>Chuck</h1>
+
+    {% for categorie in categories %}
+        <a href="{{path('chuck_categories', {categorie: categorie}) }}" class="btn btn-info m-2 ">
+            {{categorie|capitalize}}
+        </a>
+    {% endfor %}
+{% endblock %}

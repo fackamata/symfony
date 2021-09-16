@@ -139,4 +139,14 @@ class PageController extends AbstractController
 
         return $this->redirectToRoute('page_index', [], Response::HTTP_SEE_OTHER);
     }
+
+    /**
+     * @Route("/test/{slug}", name="page_example", methods={"GET"})
+     */
+    public function example(Page $page): Response
+    {
+        return $this->render('page/page.html.twig', [
+            'page' => $page,
+        ]);
+    }
 }

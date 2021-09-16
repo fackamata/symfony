@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{page.titrePage}}{% endblock %}
+
+{% block content %}
+    <h1>{{page.titrePage}}</h1>
+
+    <img src="{{ page.image }}" class="img-fluid" alt='{{ page.titrePage }}' style="height: 50px">
+
+    <div>{{page.texte}}</div>
+    <br>
+    <p>Créer le : {{ page.date ? page.date|date('d-m-Y') : '' }}</p>
+
+   
+{% endblock %}

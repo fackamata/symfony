@@ -4,10 +4,10 @@ test du readme
 
 ## pour Pull le repo
 
-**$ composer install ** 
+** $ composer install ** 
 pour installer toutes les dépendances 
 
-**$ bin/console doctrine:schema:update --force **
+**      $ bin/console doctrine:schema:update --force **
 pour créer la base de donnée par rapport aux entités
 
 ## Command Utilisé 

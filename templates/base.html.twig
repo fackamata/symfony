@@ -62,6 +62,20 @@
              </div>
         </header>
 
+            <div class="container-fluid ">
+                <ul class="list-group list-group-horizontal">
+                        {% for elem in menuService.getPageMenu() %}
+                        {# {% for elem in menuService.pageMenu %} #}
+                        <li class="list-group-item">
+                            <a href="{{path('page_example', {slug: elem.slug}) }}">
+                                {{elem.titrePage}}
+                            </a>
+                        </li>
+                        {% endfor %}
+                    </u>
+            </div>
+
+
         {% for message in app.flashes('notice') %}
             <div class="alert alert-success">{{message}}</div>
         {% endfor %}

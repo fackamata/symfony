@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ChuckController!{% endblock %}
+
+{% block content %}
+
+    <h1>Joke n° {{joke.id}} </h1>
+    <img src="{{joke.icon_url}}" alt="">
+
+    <blockquote>
+        <cite>
+
+            {{joke.value}}
+        </cite>
+    </blockquote>
+
+    <a href="{{path('chuck_index')}}" class="btn btn-info">Retour</a>
+    <a href="{{path('chuck_categories', {categorie: categorie}) }}" class="btn btn-info">Another one</a>
+        {% endblock %}
